@@ -3,6 +3,12 @@
   var dialog=document.getElementById('auth-dialog'), toast=document.getElementById('toast');
   function deviceId(){var key='pm_device_id',id=localStorage.getItem(key);if(!id){id=(crypto.randomUUID?crypto.randomUUID():Date.now()+'-'+Math.random()).replace(/-/g,'');localStorage.setItem(key,id)}return id}
   function notify(message){window.PM.notify(message)}
+  var installPrompt=null,standalone=window.matchMedia('(display-mode: standalone)').matches||window.navigator.standalone===true;
+  function installButtons(hidden){document.querySelectorAll('[data-install-app]').forEach(function(button){button.hidden=hidden})}
+  installButtons(standalone);
+  window.addEventListener('beforeinstallprompt',function(event){event.preventDefault();installPrompt=event;installButtons(false)});
+  document.querySelectorAll('[data-install-app]').forEach(function(button){button.addEventListener('click',function(){if(installPrompt){installPrompt.prompt();installPrompt.userChoice.then(function(){installPrompt=null})}else if(/iphone|ipad|ipod/i.test(navigator.userAgent)){notify('Ketuk Bagikan, lalu pilih Tambahkan ke Layar Utama.')}else{notify('Buka menu browser lalu pilih Install app atau Tambahkan ke layar utama.')};})});
+  window.addEventListener('appinstalled',function(){installButtons(true);notify('PEMILIH MUDA berhasil diinstall.')});
   window.addEventListener('offline',function(){notify('Koneksi internet terputus. Data belum dikirim.')});
   window.addEventListener('online',function(){notify('Koneksi internet kembali tersedia.')});
   window.addEventListener('error',function(event){console.error('Client error',event.error||event.message);notify('Terjadi kesalahan pada tampilan. Silakan muat ulang halaman.')});
