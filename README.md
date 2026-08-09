@@ -1,6 +1,6 @@
 # PEMILIH MUDA
 
-Platform edukasi dan quiz pemilih pemula berbasis Google Apps Script dan Google Sheets. Repository ini saat ini menyelesaikan **Phase 4 — Season & Bank Soal**.
+Platform edukasi dan quiz pemilih pemula berbasis Google Apps Script dan Google Sheets. Repository ini saat ini menyelesaikan **Phase 5 — Quiz Engine**.
 
 ## Yang sudah tersedia
 
@@ -19,8 +19,11 @@ Platform edukasi dan quiz pemilih pemula berbasis Google Apps Script dan Google 
 - Layar Belajar, Top 50 leaderboard, profil pribadi, bottom navigation, skeleton loading, session restore, dan logout.
 - API admin CRUD season, aktivasi tunggal, nonaktifkan season, serta deteksi season terjadwal berdasarkan tanggal server.
 - API admin Bank Soal untuk CRUD, filter, pagination, duplikasi, aktif/nonaktif, dan import Spreadsheet batch.
+- Quiz session server-side dengan random question, random answer, resume, timer, dan batas attempt.
+- Opaque option ID, nonce satu kali, replay protection, validasi jawaban dan score sepenuhnya di server.
+- UI quiz mobile satu soal per layar, feedback sesuai setting season, serta halaman hasil.
 
-Quiz engine, leaderboard sekolah, dashboard admin lengkap, dan PWA penuh belum diklaim selesai; semuanya dijadwalkan pada fase berikutnya. Lihat [arsitektur](docs/ARCHITECTURE.md), [setup](SETUP.md), dan [panduan pengembangan](DEVELOPMENT.md).
+Ledger point, leaderboard sekolah, dashboard admin lengkap, dan PWA penuh belum diklaim selesai; semuanya dijadwalkan pada fase berikutnya. Lihat [arsitektur](docs/ARCHITECTURE.md), [setup](SETUP.md), dan [panduan pengembangan](DEVELOPMENT.md).
 
 ## Pemeriksaan lokal
 

@@ -30,6 +30,12 @@
       <section class="app-screen" data-screen="rank"><div class="page-heading"><span class="eyebrow">Leaderboard</span><h2>Peringkat Season</h2><p>Hanya nama publik, sekolah, dan point valid yang ditampilkan.</p></div><div id="rank-screen-list" class="rank-list"></div></section>
       <section class="app-screen" data-screen="profile"><div class="page-heading"><span class="eyebrow">Profil</span><h2>Data Peserta</h2><p>Data ini bersifat pribadi dan hanya terlihat olehmu serta administrator berwenang.</p></div><div id="profile-data" class="profile-card"><div class="skeleton"></div></div><button id="logout-button" class="danger-button">Keluar dari akun</button></section>
     </div>
+    <section id="quiz-view" class="quiz-view" hidden>
+      <header class="quiz-header"><button id="quiz-exit" class="icon-button" aria-label="Kembali">←</button><div><small id="quiz-season">Season Quiz</small><b id="quiz-position">Soal 1 / 10</b></div><strong id="quiz-timer">00:00</strong></header>
+      <div class="quiz-progress"><i id="quiz-progress-bar"></i></div>
+      <article id="question-card" class="question-card"><span id="quiz-category" class="tag">Kategori</span><h2 id="question-text">Memuat soal…</h2><form id="answer-form"><div id="answer-options" class="answer-options"></div><button id="submit-answer" type="submit" disabled>Jawab</button></form><div id="answer-feedback" class="answer-feedback" hidden></div></article>
+      <article id="quiz-result" class="quiz-result" hidden><span class="result-icon">✓</span><span class="eyebrow">Quiz selesai</span><h2>Kerja bagus!</h2><div class="result-grid"><div><small>Benar</small><strong id="result-correct">0</strong></div><div><small>Salah</small><strong id="result-wrong">0</strong></div><div><small>Score</small><strong id="result-score">0</strong></div><div><small>Quiz Point</small><strong id="result-point">0</strong></div></div><p>Point akan masuk ledger setelah Point Engine Phase 6 aktif.</p><button id="result-home">Kembali ke Home</button></article>
+    </section>
     <nav class="bottom-nav" aria-label="Navigasi utama"><button class="active" data-screen-target="home"><span>⌂</span>Home</button><button data-screen-target="learn"><span>▤</span>Belajar</button><button data-screen-target="rank"><span>♜</span>Rank</button><button data-screen-target="profile"><span>○</span>Profil</button></nav>
   </main>
 

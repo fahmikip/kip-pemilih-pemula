@@ -1,0 +1,16 @@
+const fs = require('node:fs');
+const vm = require('node:vm');
+const assert = require('node:assert/strict');
+const source = fs.readFileSync('src/QuizService.gs','utf8');
+const context = {Math:Math};
+vm.createContext(context);
+vm.runInContext(source + '\nthis.shuffle=shuffle_;',context);
+const original=['A','B','C','D'];
+const shuffled=context.shuffle(original);
+assert.deepEqual([...original],['A','B','C','D'],'shuffle tidak boleh mengubah input');
+assert.deepEqual([...shuffled].sort(),[...original].sort(),'shuffle harus mempertahankan seluruh item');
+assert.match(source,/storedOptions\.map\(option=>\(\{id:option\.id,text:option\.text\}\)\)/,'opsi publik harus memakai allowlist id dan text');
+assert.doesNotMatch(source,/question:\{[^}]*JawabanBenar/,'kunci jawaban tidak boleh berada pada payload soal');
+assert.match(source,/answer\.Status!=='PENDING'/,'jawaban ulang harus ditolak');
+assert.match(source,/constantTimeEqual_\(answer\.Nonce/,'nonce jawaban wajib diverifikasi');
+console.log('Quiz security checks passed');

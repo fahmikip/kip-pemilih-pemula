@@ -55,6 +55,14 @@
 - Penghapusan soal dilakukan secara aman melalui status `INACTIVE`; histori quiz tidak kehilangan referensi.
 - Import Spreadsheet membutuhkan header schema Bank Soal, dibatasi 1.000 baris, divalidasi per baris, dicek duplikat, lalu ditulis batch.
 
+## Kontrak Quiz Engine Phase 5
+
+- `startQuiz(token, clientInfo)` membuat atau melanjutkan tepat satu sesi `STARTED` untuk season aktif.
+- Daftar QuestionID dipilih server dan dibekukan dalam `QuizSessions`; perubahan bank soal tidak mengubah komposisi sesi berjalan.
+- Browser hanya menerima `answerId`, nonce satu kali, opaque option ID, dan teks opsi. Mapping opsi ke A/B/C/D tetap tersimpan di backend.
+- `submitQuizAnswer()` berada dalam script lock, memverifikasi pemilik sesi, status, timeout, nonce, option ID, dan menolak replay.
+- Score dan quiz point dihitung server saat seluruh jawaban selesai. Quiz point belum menjadi saldo hingga Point Engine Phase 6 membuat transaksi ledger.
+
 ## Batasan platform
 
 Google Sheets tidak menyediakan unique constraint atau transaction database. Service layer harus memakai locks, duplicate checks, dan idempotency keys. Apps Script memiliki quota/waktu eksekusi; agregasi leaderboard besar perlu cache dan trigger terjadwal. Untuk PWA penuh, gunakan static host terpisah sebagaimana dijelaskan di dokumen arsitektur.
