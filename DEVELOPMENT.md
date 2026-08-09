@@ -79,6 +79,15 @@
 - Ranking sekolah mengagregasi total point, peserta terdaftar, peserta aktif, quiz selesai, dan average score.
 - Top 3 publik dicache maksimal lima menit dan diinvalidasi saat transaksi point quiz dibuat.
 
+## Kontrak Winner Engine Phase 8
+
+- Kandidat wajib peserta aktif dengan minimal satu quiz `COMPLETED` pada season.
+- Urutan kandidat: total point valid, correct answer, quiz completed, lalu average score; tidak ada pemilihan acak.
+- Jika seluruh metrik kandidat teratas sama, status menjadi `NEED_REVIEW` dan kandidat tie sama-sama berperingkat #1.
+- Fraud score hanya ditampilkan sebagai `NORMAL`, `REVIEW`, atau `HIGH RISK`; tidak mendiskualifikasi otomatis.
+- Diskualifikasi membutuhkan alasan dan tersimpan sebagai keputusan audit. Hanya kandidat teratas atau kandidat tie yang dapat divalidasi.
+- Satu season hanya dapat mempunyai satu record `VALIDATED`; pemenang publik tidak memuat PII.
+
 ## Batasan platform
 
 Google Sheets tidak menyediakan unique constraint atau transaction database. Service layer harus memakai locks, duplicate checks, dan idempotency keys. Apps Script memiliki quota/waktu eksekusi; agregasi leaderboard besar perlu cache dan trigger terjadwal. Untuk PWA penuh, gunakan static host terpisah sebagaimana dijelaskan di dokumen arsitektur.

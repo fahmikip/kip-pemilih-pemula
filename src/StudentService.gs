@@ -32,7 +32,7 @@ function getStudentDashboard(token) {
       progress:progress, completedQuiz:completed,
       topThree:leaderboardVisible?leaderboard.slice(0,3).map(item => ({rank:item.rank,name:item.name,school:item.school,point:item.point})):[],
       leaderboard:leaderboardVisible?leaderboard.slice(0,50).map(item => ({rank:item.rank,name:item.name,school:item.school,point:item.point})):[],
-      materials:materials, announcements:announcements
+      materials:materials, announcements:announcements, latestWinner:publicWinners_().slice(0,1)[0]||null
     });
   } catch (error) { console.error(error); return apiError_(error.publicCode ? error.message : 'Dashboard gagal dimuat.', error.publicCode || 'DASHBOARD_FAILED'); }
 }

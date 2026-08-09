@@ -1,6 +1,6 @@
 # PEMILIH MUDA
 
-Platform edukasi dan quiz pemilih pemula berbasis Google Apps Script dan Google Sheets. Repository ini saat ini menyelesaikan **Phase 7 — Leaderboard**.
+Platform edukasi dan quiz pemilih pemula berbasis Google Apps Script dan Google Sheets. Repository ini saat ini menyelesaikan **Phase 8 — Winner Engine**.
 
 ## Yang sudah tersedia
 
@@ -26,8 +26,10 @@ Platform edukasi dan quiz pemilih pemula berbasis Google Apps Script dan Google 
 - Bonus selesai/perfect score, rekonsiliasi cache, histori point peserta, dan audit penyesuaian admin.
 - Leaderboard peserta Top 3/10/50, ranking pribadi, competition rank untuk point sama, dan projection publik tanpa PII.
 - Leaderboard sekolah dengan total point, peserta, peserta aktif, quiz selesai, average score, serta tab UI khusus.
+- Kandidat pemenang deterministik dengan tie-break point, correct answer, quiz completed, dan average score.
+- Status `NEED_REVIEW`, validate/disqualify dengan alasan wajib, single-winner guard, audit log, dan champion publik tanpa PII.
 
-Winner engine, dashboard admin lengkap, dan PWA penuh belum diklaim selesai; semuanya dijadwalkan pada fase berikutnya. Lihat [arsitektur](docs/ARCHITECTURE.md), [setup](SETUP.md), dan [panduan pengembangan](DEVELOPMENT.md).
+Dashboard admin lengkap, pengelolaan konten lanjutan, anti-fraud, dan PWA penuh belum diklaim selesai; semuanya dijadwalkan pada fase berikutnya. Lihat [arsitektur](docs/ARCHITECTURE.md), [setup](SETUP.md), dan [panduan pengembangan](DEVELOPMENT.md).
 
 ## Pemeriksaan lokal
 
