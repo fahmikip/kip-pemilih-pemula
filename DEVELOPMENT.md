@@ -71,6 +71,14 @@
 - Koreksi admin tidak mengubah transaksi lama: penambahan memakai `ADMIN`, pengurangan memakai `PENALTY`, dan alasan wajib dicatat.
 - `reconcilePointCaches()` menghitung ulang seluruh cache melalui satu pembacaan ledger dan satu batch write Users.
 
+## Kontrak Leaderboard Phase 7
+
+- Ranking hanya mengagregasi `PointTransactions` berstatus `VALID` untuk satu season.
+- Point yang sama menggunakan competition ranking (`1, 1, 3`); urutan tampilan stabil memakai nama publik.
+- Projection publik hanya berisi rank, nama termasking, sekolah, dan point—tanpa UserID, SchoolID, atau PII.
+- Ranking sekolah mengagregasi total point, peserta terdaftar, peserta aktif, quiz selesai, dan average score.
+- Top 3 publik dicache maksimal lima menit dan diinvalidasi saat transaksi point quiz dibuat.
+
 ## Batasan platform
 
 Google Sheets tidak menyediakan unique constraint atau transaction database. Service layer harus memakai locks, duplicate checks, dan idempotency keys. Apps Script memiliki quota/waktu eksekusi; agregasi leaderboard besar perlu cache dan trigger terjadwal. Untuk PWA penuh, gunakan static host terpisah sebagaimana dijelaskan di dokumen arsitektur.

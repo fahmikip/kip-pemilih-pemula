@@ -12,6 +12,7 @@
       <aside class="score-card"><span>Season Challenge</span><strong>+10</strong><b>POINT PER JAWABAN</b><div class="meter"><i></i></div><small>Belajar • Quiz • Achievement</small></aside>
     </section>
     <section class="steps"><article><b>01</b><h2>Daftar</h2><p>Gunakan identitas sekolah yang benar.</p></article><article><b>02</b><h2>Ikuti Quiz</h2><p>Jawaban diperiksa aman di server.</p></article><article><b>03</b><h2>Naik Ranking</h2><p>Kumpulkan point edukasi yang valid.</p></article></section>
+    <section class="public-rank"><div class="section-title"><div><span class="eyebrow">Leaderboard</span><h2>Top 3 Season</h2></div></div><div id="public-top-three" class="rank-list"><div class="skeleton"></div></div></section>
     <section class="status" aria-live="polite"><span class="dot"></span><span id="service-status">Memeriksa layanan…</span></section>
   </main>
 
@@ -27,7 +28,7 @@
         <section><div class="section-title"><h2>Pengumuman</h2></div><div id="announcement-list" class="announcement-list"></div></section>
       </section>
       <section class="app-screen" data-screen="learn"><div class="page-heading"><span class="eyebrow">Belajar</span><h2>Bekal Pemilih Cerdas</h2><p>Materi netral dan nonpartisan yang telah dipublikasikan.</p></div><div id="material-list" class="material-grid"></div></section>
-      <section class="app-screen" data-screen="rank"><div class="page-heading"><span class="eyebrow">Leaderboard</span><h2>Peringkat Season</h2><p>Hanya nama publik, sekolah, dan point valid yang ditampilkan.</p></div><div id="rank-screen-list" class="rank-list"></div></section>
+      <section class="app-screen" data-screen="rank"><div class="page-heading"><span class="eyebrow">Leaderboard</span><h2>Peringkat Season</h2><p>Hanya nama publik, sekolah, dan point valid yang ditampilkan.</p></div><div class="segmented"><button class="active" data-rank-tab="participant">Peserta</button><button data-rank-tab="school">Sekolah</button></div><div id="rank-screen-list" class="rank-list"></div><div id="school-rank-list" class="rank-list" hidden></div></section>
       <section class="app-screen" data-screen="profile"><div class="page-heading"><span class="eyebrow">Profil</span><h2>Data Peserta</h2><p>Data ini bersifat pribadi dan hanya terlihat olehmu serta administrator berwenang.</p></div><div id="profile-data" class="profile-card"><div class="skeleton"></div></div><div class="section-title"><h2>Riwayat Point</h2></div><div id="point-history" class="point-history"><div class="skeleton"></div></div><button id="logout-button" class="danger-button">Keluar dari akun</button></section>
     </div>
     <section id="quiz-view" class="quiz-view" hidden>

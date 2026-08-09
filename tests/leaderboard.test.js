@@ -1,0 +1,12 @@
+const fs=require('node:fs');
+const vm=require('node:vm');
+const assert=require('node:assert/strict');
+const source=fs.readFileSync('src/LeaderboardService.gs','utf8'),context={};
+vm.createContext(context);vm.runInContext(source+'\nthis.rankRows=assignCompetitionRanks_;',context);
+const ranked=context.rankRows([{point:100},{point:100},{point:80},{point:70},{point:70}],'point');
+assert.deepEqual(ranked.map(item=>item.rank),[1,1,3,4,4],'point sama harus menghasilkan competition rank yang sama');
+assert.match(source,/return rows\.map\(item=>\(\{rank:item\.rank,name:item\.name,school:item\.school,point:item\.point\}\)\)/,'projection publik harus memakai allowlist');
+const projection=source.match(/function publicParticipantRows_[^\n]+/)[0];
+assert.doesNotMatch(projection,/userId|schoolId|NIS|Email|WhatsApp/,'projection publik tidak boleh memuat identifier atau PII');
+assert.match(source,/item\.Status==='VALID'/,'leaderboard wajib memakai transaksi valid');
+console.log('Leaderboard checks passed');

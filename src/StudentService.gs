@@ -12,19 +12,12 @@ function maskPublicName_(name) {
   return parts[0] + ' ' + parts.slice(1).map(item => item.charAt(0).toUpperCase() + '.').join(' ');
 }
 
-function buildLeaderboard_(seasonId) {
-  const valid = readTable_('PointTransactions').filter(item => item.Status === 'VALID' && (!seasonId || item.SeasonID === seasonId));
-  const totals = valid.reduce((map,item) => { map[item.UserID] = (map[item.UserID] || 0) + Number(item.Point || 0); return map; }, {});
-  const users = readTable_('Users').filter(item => item.Role === 'STUDENT' && item.Status === 'ACTIVE');
-  const schools = readTable_('Schools').reduce((map,item) => { map[item.SchoolID] = item.NamaSekolah; return map; }, {});
-  return users.map(user => ({userId:user.UserID,name:maskPublicName_(user.Name),school:schools[user.SchoolID] || '',point:Number(totals[user.UserID] || 0)})).sort((a,b) => b.point - a.point || a.name.localeCompare(b.name)).map((item,index) => Object.assign({rank:index + 1},item));
-}
-
 function getStudentDashboard(token) {
   try {
     const auth = requireSession_(token, ['STUDENT']);
     const user = auth.user, season = resolveActiveSeason_();
-    const leaderboard = buildLeaderboard_(season ? season.SeasonID : '');
+    const leaderboard = season ? buildLeaderboard_(season.SeasonID) : [];
+    const leaderboardVisible = getSetting_('SHOW_LEADERBOARD','TRUE') === 'TRUE';
     const ownRank = leaderboard.find(item => item.userId === user.UserID);
     const sessions = season ? readTable_('QuizSessions').filter(item => item.UserID === user.UserID && item.SeasonID === season.SeasonID) : [];
     const completed = sessions.filter(item => item.Status === 'COMPLETED').length;
@@ -34,11 +27,11 @@ function getStudentDashboard(token) {
     const now = Date.now();
     const announcements = readTable_('Announcements').filter(item => item.Status === 'PUBLISHED' && (!item.ExpiresAt || new Date(item.ExpiresAt).getTime() >= now)).sort((a,b) => String(b.PublishedAt).localeCompare(String(a.PublishedAt))).slice(0,5).map(item => ({id:item.AnnouncementID,title:item.Title,content:item.Content,publishedAt:item.PublishedAt}));
     return apiSuccess_({
-      user:publicUser_(user), point:ownRank ? ownRank.point : 0, rank:ownRank ? ownRank.rank : null,
+      user:publicUser_(user), point:ownRank ? ownRank.point : 0, rank:leaderboardVisible&&ownRank ? ownRank.rank : null,
       season:season ? {id:season.SeasonID,name:season.NamaSeason,theme:season.Tema,description:season.Deskripsi,start:season.TanggalMulai,end:season.TanggalSelesai,maxAttempt:maxAttempt} : null,
       progress:progress, completedQuiz:completed,
-      topThree:leaderboard.slice(0,3).map(item => ({rank:item.rank,name:item.name,school:item.school,point:item.point})),
-      leaderboard:leaderboard.slice(0,50).map(item => ({rank:item.rank,name:item.name,school:item.school,point:item.point})),
+      topThree:leaderboardVisible?leaderboard.slice(0,3).map(item => ({rank:item.rank,name:item.name,school:item.school,point:item.point})):[],
+      leaderboard:leaderboardVisible?leaderboard.slice(0,50).map(item => ({rank:item.rank,name:item.name,school:item.school,point:item.point})):[],
       materials:materials, announcements:announcements
     });
   } catch (error) { console.error(error); return apiError_(error.publicCode ? error.message : 'Dashboard gagal dimuat.', error.publicCode || 'DASHBOARD_FAILED'); }
