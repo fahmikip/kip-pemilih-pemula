@@ -104,6 +104,15 @@
 - Pengumuman peserta hanya menerima audience `ALL`/`STUDENT` yang belum kedaluwarsa; audience `ADMIN` tidak bocor ke dashboard peserta.
 - Materi publik dicache singkat dan cache diinvalidasi setiap create/update/status change.
 
+## Kontrak Anti-Fraud Phase 11
+
+- Fraud rules baseline: duplicate identity, shared device, unrealistic duration, excessive requests, answer replay, invalid nonce/option, dan parameter manipulation.
+- Fraud log dideduplikasi berdasarkan user, rule, dan context/session agar retry yang sama tidak menambah score berulang kali.
+- Threshold: `0–20 NORMAL`, `21–50 REVIEW`, `51+ HIGH RISK`.
+- Shared device hanya menghasilkan sinyal review; tidak pernah memblokir atau mendiskualifikasi secara otomatis.
+- Admin dapat `CONFIRMED` atau `DISMISSED`; log dismissed dikeluarkan saat FraudScore dihitung ulang.
+- Cache-based throttling membatasi start quiz dan submit answer; Sheets/FraudLogs tetap menjadi audit trail untuk pelanggaran batas.
+
 ## Batasan platform
 
 Google Sheets tidak menyediakan unique constraint atau transaction database. Service layer harus memakai locks, duplicate checks, dan idempotency keys. Apps Script memiliki quota/waktu eksekusi; agregasi leaderboard besar perlu cache dan trigger terjadwal. Untuk PWA penuh, gunakan static host terpisah sebagaimana dijelaskan di dokumen arsitektur.

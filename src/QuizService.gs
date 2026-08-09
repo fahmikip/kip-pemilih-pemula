@@ -32,6 +32,7 @@ function finalizeQuiz_(session,season){
   const correct=answers.filter(item=>item.IsCorrect===true||String(item.IsCorrect).toUpperCase()==='TRUE').length,wrong=answers.length-correct,total=JSON.parse(String(session.QuestionIDs||'[]')).length;
   if(answers.length<total)return {completed:false};
   const finished=nowIso_(),duration=Math.max(0,Math.floor((Date.now()-new Date(session.StartedAt).getTime())/1000)),score=total?Math.round(correct/total*100):0,point=answers.reduce((sum,item)=>sum+Number(item.Point||0),0),award=awardQuizPoints_(session,point,correct,total);
+  if(total>0&&duration<total*3)recordFraudOnce_(session.UserID,session.SessionID,'UNREALISTIC_DURATION','Quiz diselesaikan lebih cepat dari ambang review',{duration:duration,questions:total});
   updateRecord_('QuizSessions','SessionID',session.SessionID,{FinishedAt:finished,Correct:correct,Wrong:wrong,Score:score,Bonus:award.bonus,TotalPoint:award.totalAwarded,Duration:duration,Status:'COMPLETED',AnswerNonce:'',UpdatedAt:finished});
   const result=Object.assign({},session,{FinishedAt:finished,Correct:correct,Wrong:wrong,Score:score,QuizPoint:award.quizPoint,Bonus:award.bonus,TotalPoint:award.totalAwarded,TotalBalance:award.totalBalance,Duration:duration,Status:'COMPLETED'});
   logActivity_(session.UserID,'FINISH_QUIZ','QuizSessions',session.SessionID,'Quiz selesai dengan score '+score,'');
@@ -41,6 +42,7 @@ function finalizeQuiz_(session,season){
 function startQuiz(token,clientInfo){
   try{
     const auth=requireSession_(token,['STUDENT']);
+    if(!checkActionRate_(auth.user.UserID,'START_QUIZ',10,60))return apiError_('Terlalu banyak request. Coba kembali sebentar lagi.','RATE_LIMITED');
     return withDocumentLock_(function(){
       const season=resolveActiveSeason_();if(!season)return apiError_('Belum ada season aktif.','NO_ACTIVE_SEASON');
       const all=readTable_('QuizSessions').filter(item=>item.UserID===auth.user.UserID&&item.SeasonID===season.SeasonID);
@@ -60,17 +62,18 @@ function startQuiz(token,clientInfo){
 function submitQuizAnswer(token,payload){
   try{
     const auth=requireSession_(token,['STUDENT']);
+    if(!checkActionRate_(auth.user.UserID,'SUBMIT_ANSWER',90,60))return apiError_('Terlalu banyak request. Coba kembali sebentar lagi.','RATE_LIMITED');
     return withDocumentLock_(function(){
       const data=payload||{},session=findOne_('QuizSessions','SessionID',sanitizeText_(data.sessionId,40));
-      if(!session||session.UserID!==auth.user.UserID)return apiError_('Sesi quiz tidak ditemukan.','QUIZ_SESSION_NOT_FOUND');
+      if(!session||session.UserID!==auth.user.UserID){recordFraudOnce_(auth.user.UserID,sanitizeText_(data.sessionId,40),'PARAMETER_MANIPULATION','Percobaan menggunakan sesi quiz yang tidak dimiliki',{sessionId:sanitizeText_(data.sessionId,40)});return apiError_('Sesi quiz tidak ditemukan.','QUIZ_SESSION_NOT_FOUND');}
       if(session.Status!=='STARTED')return apiError_('Sesi quiz sudah ditutup.','QUIZ_SESSION_CLOSED');
       const season=findOne_('Seasons','SeasonID',session.SeasonID);if(!season)return apiError_('Season tidak ditemukan.','SEASON_NOT_FOUND');
       if(quizExpired_(session,season)){expireQuiz_(session);return apiError_('Waktu quiz telah habis.','QUIZ_EXPIRED');}
       const answer=findOne_('QuizAnswers','AnswerID',sanitizeText_(data.answerId,40));
       if(!answer||answer.SessionID!==session.SessionID||answer.UserID!==auth.user.UserID)return apiError_('Jawaban tidak valid.','ANSWER_INVALID');
-      if(answer.Status!=='PENDING')return apiError_('Jawaban sudah pernah dikirim.','ANSWER_REPLAY');
-      if(!constantTimeEqual_(answer.Nonce,sanitizeText_(data.nonce,100)))return apiError_('Token jawaban tidak valid.','ANSWER_NONCE_INVALID');
-      const options=JSON.parse(String(answer.PresentedOptions)),selected=options.find(item=>item.id===sanitizeText_(data.optionId,40));if(!selected)return apiError_('Pilihan jawaban tidak valid.','OPTION_INVALID');
+      if(answer.Status!=='PENDING'){recordFraudOnce_(auth.user.UserID,session.SessionID,'ANSWER_REPLAY','Jawaban yang sama dikirim ulang',{answerId:answer.AnswerID});return apiError_('Jawaban sudah pernah dikirim.','ANSWER_REPLAY');}
+      if(!constantTimeEqual_(answer.Nonce,sanitizeText_(data.nonce,100))){recordFraudOnce_(auth.user.UserID,session.SessionID,'NONCE_INVALID','Nonce jawaban tidak valid',{answerId:answer.AnswerID});return apiError_('Token jawaban tidak valid.','ANSWER_NONCE_INVALID');}
+      const options=JSON.parse(String(answer.PresentedOptions)),selected=options.find(item=>item.id===sanitizeText_(data.optionId,40));if(!selected){recordFraudOnce_(auth.user.UserID,session.SessionID,'OPTION_INVALID','Option ID tidak terdapat pada opsi yang disajikan',{answerId:answer.AnswerID});return apiError_('Pilihan jawaban tidak valid.','OPTION_INVALID');}
       const question=findOne_('Questions','QuestionID',answer.QuestionID);if(!question)return apiError_('Soal tidak ditemukan.','QUESTION_NOT_FOUND');
       const correct=selected.key===question.JawabanBenar,point=correct?Number(question.Point||season.PoinPerSoal||0):0,timestamp=nowIso_();
       updateRecord_('QuizAnswers','AnswerID',answer.AnswerID,{SelectedOptionID:selected.id,IsCorrect:correct,Point:point,AnsweredAt:timestamp,Status:'ANSWERED'});updateRecord_('QuizSessions','SessionID',session.SessionID,{AnswerNonce:'',UpdatedAt:timestamp});logActivity_(auth.user.UserID,'ANSWER_QUESTION','QuizAnswers',answer.AnswerID,'Mengirim jawaban quiz','');

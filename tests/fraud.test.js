@@ -1,0 +1,11 @@
+const fs=require('node:fs');
+const vm=require('node:vm');
+const assert=require('node:assert/strict');
+const source=fs.readFileSync('src/FraudService.gs','utf8'),context={Object:Object};vm.createContext(context);vm.runInContext(source+'\nthis.risk=riskLevel_;this.rules=FRAUD_RULES;',context);
+assert.equal(context.risk(0),'NORMAL');assert.equal(context.risk(20),'NORMAL');assert.equal(context.risk(21),'REVIEW');assert.equal(context.risk(50),'REVIEW');assert.equal(context.risk(51),'HIGH RISK');
+assert.ok(context.rules.ANSWER_REPLAY>0);assert.ok(context.rules.NONCE_INVALID>0);assert.ok(context.rules.SHARED_DEVICE>0);
+assert.match(source,/item\.Status!=='DISMISSED'/,'dismissed log tidak boleh dihitung dalam fraud score');
+assert.match(source,/\['CONFIRMED','DISMISSED'\]/,'review harus memakai keputusan allowlist');
+const quiz=fs.readFileSync('src/QuizService.gs','utf8');for(const rule of ['UNREALISTIC_DURATION','ANSWER_REPLAY','NONCE_INVALID','OPTION_INVALID','PARAMETER_MANIPULATION'])assert.match(quiz,new RegExp("'"+rule+"'"),rule+' harus terintegrasi ke quiz');
+assert.match(quiz,/checkActionRate_\(auth\.user\.UserID,'SUBMIT_ANSWER'/,'submit answer wajib rate limited');
+console.log('Fraud and rate-limit checks passed');
