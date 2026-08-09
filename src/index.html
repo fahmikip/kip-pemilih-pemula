@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <base target="_top">
+  <meta charset="utf-8">
+  <meta name="theme-color" content="#123B66">
+  <?!= include_('src/styles'); ?>
+</head>
+<body>
+  <main class="shell">
+    <div class="brand">PEMILIH MUDA</div>
+    <section class="hero">
+      <span class="eyebrow">Platform edukasi pemilih pemula</span>
+      <h1>Kenali Hak Pilihmu.<br>Uji Pengetahuanmu.<br><em>Jadilah Pemilih Cerdas.</em></h1>
+      <p>Aplikasi sedang berada pada Phase 1: fondasi data dan arsitektur telah siap.</p>
+      <div class="actions"><button disabled>Daftar sekarang</button><button class="secondary" disabled>Masuk</button></div>
+    </section>
+    <section class="status" aria-live="polite"><span class="dot"></span><span id="status">Memeriksa layanan…</span></section>
+  </main>
+  <script>
+    google.script.run.withSuccessHandler(function(response) {
+      document.getElementById('status').textContent = response.success ? 'Fondasi v' + response.data.version + ' siap' : response.message;
+    }).withFailureHandler(function() { document.getElementById('status').textContent = 'Layanan belum dapat dihubungi'; }).getPublicBootstrap();
+  </script>
+</body>
+</html>
