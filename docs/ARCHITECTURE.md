@@ -119,7 +119,7 @@ Alternatif satu-deployment HTML Service tetap dapat memberi pengalaman mobile da
 6. Point engine — ledger, bonus, achievement hooks, reconciliation (selesai; achievement hook diteruskan pada modul achievement).
 7. Leaderboard — peserta/sekolah, safe projection, ranking pribadi (selesai).
 8. Winner engine — deterministic tie-break dan review/finalization (selesai).
-9. Admin dashboard — participant/content/reward/fraud operations.
+9. Admin dashboard — participant, school, season, question, winner, dan reward operations (selesai; content/fraud diteruskan pada fase domain terkait).
 10. Education content — material, announcement, read status.
 11. Anti-fraud/security hardening — rules, throttling, audit review.
 12. PWA — static hosting, manifest, service worker, offline policy, install UX.

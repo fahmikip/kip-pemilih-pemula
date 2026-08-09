@@ -88,6 +88,14 @@
 - Diskualifikasi membutuhkan alasan dan tersimpan sebagai keputusan audit. Hanya kandidat teratas atau kandidat tie yang dapat divalidasi.
 - Satu season hanya dapat mempunyai satu record `VALIDATED`; pemenang publik tidak memuat PII.
 
+## Kontrak Admin Dashboard Phase 9
+
+- Login memakai endpoint yang sama tetapi client melakukan routing berdasarkan role terverifikasi dari server; token admin tidak pernah bergantung pada hidden field.
+- Semua API admin memanggil `requireSession_` dengan allowlist `ADMIN/SUPERADMIN`; PII peserta hanya dikembalikan oleh endpoint tersebut.
+- Dashboard menyediakan statistik, aktivitas terbaru, participant validation/suspension, master sekolah, season, bank soal, finalisasi winner, dan status reward.
+- Suspend/block mencabut seluruh sesi pengguna. Reset akun administrator tetap hanya dapat dilakukan superadmin.
+- Sidebar permanen pada desktop, drawer pada tablet/mobile, dan tabel sensitif menggunakan horizontal scroll pada layar sempit.
+
 ## Batasan platform
 
 Google Sheets tidak menyediakan unique constraint atau transaction database. Service layer harus memakai locks, duplicate checks, dan idempotency keys. Apps Script memiliki quota/waktu eksekusi; agregasi leaderboard besar perlu cache dan trigger terjadwal. Untuk PWA penuh, gunakan static host terpisah sebagaimana dijelaskan di dokumen arsitektur.

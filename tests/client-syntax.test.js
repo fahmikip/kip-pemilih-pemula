@@ -1,5 +1,5 @@
 const fs = require('node:fs');
-for (const file of ['auth-client.html','student-client.html']) {
+for (const file of ['auth-client.html','student-client.html','admin-client.html']) {
   const html = fs.readFileSync('src/' + file, 'utf8');
   const match = html.match(/<script>\s*([\s\S]*?)\s*<\/script>/);
   if (!match) throw new Error(file + ': wrapper script tidak valid');
