@@ -121,6 +121,15 @@
 - Offline fallback hanya berisi shell dan materi ringkas nonsensitif; tidak pernah menampilkan point baru atau menganggap jawaban terkirim.
 - Cache release memakai versi eksplisit pada konstanta `CACHE`; perubahan aset wajib menaikkan versi tersebut.
 
+## Kontrak Reporting Phase 13
+
+- Seluruh façade laporan wajib memakai role guard `ADMIN`/`SUPERADMIN`.
+- Preview dibatasi 200 baris dan ekspor CSV ditolak bila melebihi 50.000 baris.
+- Nilai CSV di-escape dan teks berawalan formula diberi prefix apostrof.
+- Filter season diterapkan pada dataset terkait; leaderboard tanpa filter memakai season aktif.
+- Print/PDF memakai projection preview yang di-escape dan tidak membawa token sesi.
+- Setiap ekspor dicatat di `ActivityLogs`.
+
 ## Batasan platform
 
 Google Sheets tidak menyediakan unique constraint atau transaction database. Service layer harus memakai locks, duplicate checks, dan idempotency keys. Apps Script memiliki quota/waktu eksekusi; agregasi leaderboard besar perlu cache dan trigger terjadwal. Untuk PWA penuh, gunakan static host terpisah sebagaimana dijelaskan di dokumen arsitektur.

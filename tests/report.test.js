@@ -1,0 +1,15 @@
+const fs=require('node:fs');
+const assert=require('node:assert/strict');
+const source=fs.readFileSync('src/ReportService.gs','utf8');
+const helpers=new Function(source+';return {csvCell_,csvFromRows_};')();
+assert.equal(helpers.csvCell_('teks "aman"'),'"teks ""aman"""');
+assert.equal(helpers.csvCell_('=2+2'),'"\'=2+2"');
+assert.equal(helpers.csvCell_('@SUM(A1:A2)'),'"\'@SUM(A1:A2)"');
+assert.equal(helpers.csvFromRows_(['A','B'],[['x','y']]),'\uFEFF"A","B"\r\n"x","y"');
+assert.match(source,/const REPORT_TYPES=Object\.freeze\(\[[^\]]*'POINT_TRANSACTIONS'/);
+assert.match(source,/getReportPreview[\s\S]*requireSession_\(adminToken,\['ADMIN','SUPERADMIN'\]\)/);
+assert.match(source,/exportReportCsv[\s\S]*requireSession_\(adminToken,\['ADMIN','SUPERADMIN'\]\)/);
+assert.match(source,/data\.rows\.length>50000/);
+const client=fs.readFileSync('src/admin-client.html','utf8');
+assert.match(client,/getReportPreview/);assert.match(client,/exportReportCsv/);assert.match(client,/new Blob/);assert.match(client,/window\.print/);
+console.log('Reporting security and export checks passed');
