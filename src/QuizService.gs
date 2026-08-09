@@ -4,7 +4,7 @@ function quizExpired_(session,season){return Date.now()-new Date(session.Started
 
 function expireQuiz_(session){updateRecord_('QuizSessions','SessionID',session.SessionID,{Status:'EXPIRED',FinishedAt:nowIso_(),UpdatedAt:nowIso_()});}
 
-function quizPublicResult_(session){return {sessionId:session.SessionID,correct:Number(session.Correct||0),wrong:Number(session.Wrong||0),score:Number(session.Score||0),quizPoint:Number(session.TotalPoint||0),duration:Number(session.Duration||0),status:session.Status};}
+function quizPublicResult_(session){return {sessionId:session.SessionID,correct:Number(session.Correct||0),wrong:Number(session.Wrong||0),score:Number(session.Score||0),quizPoint:Number(session.QuizPoint===undefined?session.TotalPoint:session.QuizPoint),bonus:Number(session.Bonus||0),totalAwarded:Number(session.TotalPoint||0),totalBalance:Number(session.TotalBalance||0),duration:Number(session.Duration||0),status:session.Status};}
 
 function prepareQuestion_(session,season,userId){
   const questionIds=JSON.parse(String(session.QuestionIDs||'[]'));
@@ -31,9 +31,9 @@ function finalizeQuiz_(session,season){
   const answers=readTable_('QuizAnswers').filter(item=>item.SessionID===session.SessionID&&item.Status==='ANSWERED');
   const correct=answers.filter(item=>item.IsCorrect===true||String(item.IsCorrect).toUpperCase()==='TRUE').length,wrong=answers.length-correct,total=JSON.parse(String(session.QuestionIDs||'[]')).length;
   if(answers.length<total)return {completed:false};
-  const finished=nowIso_(),duration=Math.max(0,Math.floor((Date.now()-new Date(session.StartedAt).getTime())/1000)),score=total?Math.round(correct/total*100):0,point=answers.reduce((sum,item)=>sum+Number(item.Point||0),0);
-  updateRecord_('QuizSessions','SessionID',session.SessionID,{FinishedAt:finished,Correct:correct,Wrong:wrong,Score:score,Bonus:0,TotalPoint:point,Duration:duration,Status:'COMPLETED',AnswerNonce:'',UpdatedAt:finished});
-  const result=Object.assign({},session,{FinishedAt:finished,Correct:correct,Wrong:wrong,Score:score,Bonus:0,TotalPoint:point,Duration:duration,Status:'COMPLETED'});
+  const finished=nowIso_(),duration=Math.max(0,Math.floor((Date.now()-new Date(session.StartedAt).getTime())/1000)),score=total?Math.round(correct/total*100):0,point=answers.reduce((sum,item)=>sum+Number(item.Point||0),0),award=awardQuizPoints_(session,point,correct,total);
+  updateRecord_('QuizSessions','SessionID',session.SessionID,{FinishedAt:finished,Correct:correct,Wrong:wrong,Score:score,Bonus:award.bonus,TotalPoint:award.totalAwarded,Duration:duration,Status:'COMPLETED',AnswerNonce:'',UpdatedAt:finished});
+  const result=Object.assign({},session,{FinishedAt:finished,Correct:correct,Wrong:wrong,Score:score,QuizPoint:award.quizPoint,Bonus:award.bonus,TotalPoint:award.totalAwarded,TotalBalance:award.totalBalance,Duration:duration,Status:'COMPLETED'});
   logActivity_(session.UserID,'FINISH_QUIZ','QuizSessions',session.SessionID,'Quiz selesai dengan score '+score,'');
   return {completed:true,result:quizPublicResult_(result)};
 }

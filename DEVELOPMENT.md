@@ -63,6 +63,14 @@
 - `submitQuizAnswer()` berada dalam script lock, memverifikasi pemilik sesi, status, timeout, nonce, option ID, dan menolak replay.
 - Score dan quiz point dihitung server saat seluruh jawaban selesai. Quiz point belum menjadi saldo hingga Point Engine Phase 6 membuat transaksi ledger.
 
+## Kontrak Point Engine Phase 6
+
+- `PointTransactions` berstatus `VALID` adalah sumber kebenaran; `Users.TotalPointCache` hanya cache lintas season.
+- Transaksi quiz unik berdasarkan `(UserID, SourceType, SourceID)` sehingga retry finalisasi tidak menggandakan point.
+- Finalisasi quiz membuat transaksi QUIZ, bonus selesai, dan bonus perfect score di dalam quiz lock sebelum sesi ditutup.
+- Koreksi admin tidak mengubah transaksi lama: penambahan memakai `ADMIN`, pengurangan memakai `PENALTY`, dan alasan wajib dicatat.
+- `reconcilePointCaches()` menghitung ulang seluruh cache melalui satu pembacaan ledger dan satu batch write Users.
+
 ## Batasan platform
 
 Google Sheets tidak menyediakan unique constraint atau transaction database. Service layer harus memakai locks, duplicate checks, dan idempotency keys. Apps Script memiliki quota/waktu eksekusi; agregasi leaderboard besar perlu cache dan trigger terjadwal. Untuk PWA penuh, gunakan static host terpisah sebagaimana dijelaskan di dokumen arsitektur.

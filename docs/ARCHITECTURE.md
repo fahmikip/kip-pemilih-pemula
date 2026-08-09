@@ -116,7 +116,7 @@ Alternatif satu-deployment HTML Service tetap dapat memberi pengalaman mobile da
 3. Student UI — landing, dashboard, profil, navigation dan states (selesai).
 4. Season/question — CRUD admin, import, activation rules (selesai).
 5. Quiz engine — randomized server-side sessions dan answer validation (selesai).
-6. Point engine — ledger, bonus, achievement hooks, reconciliation.
+6. Point engine — ledger, bonus, achievement hooks, reconciliation (selesai; achievement hook diteruskan pada modul achievement).
 7. Leaderboard — peserta/sekolah, safe projection, ranking pribadi.
 8. Winner engine — deterministic tie-break dan review/finalization.
 9. Admin dashboard — participant/content/reward/fraud operations.
