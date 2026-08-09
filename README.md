@@ -1,6 +1,6 @@
 # PEMILIH MUDA
 
-Platform edukasi dan quiz pemilih pemula berbasis Google Apps Script dan Google Sheets. Repository ini saat ini menyelesaikan **Phase 13 — Reporting**.
+Platform edukasi dan quiz pemilih pemula berbasis Google Apps Script dan Google Sheets. Repository ini telah menyelesaikan **Phase 14 — Testing & Optimization**.
 
 ## Yang sudah tersedia
 
@@ -40,7 +40,7 @@ Platform edukasi dan quiz pemilih pemula berbasis Google Apps Script dan Google 
 - Console admin menyediakan preview dan ekspor CSV untuk peserta, sekolah, quiz, leaderboard, season, pemenang, reward, fraud, dan transaksi point.
 - Laporan mendukung filter season, tampilan Print/PDF, batas ukuran, escaping CSV, dan perlindungan formula injection.
 
-Final testing/optimization belum diklaim selesai dan dijadwalkan pada fase berikutnya. Lihat [arsitektur](docs/ARCHITECTURE.md), [setup](SETUP.md), [panduan PWA](PWA.md), dan [panduan pengembangan](DEVELOPMENT.md).
+Baseline MVP seluruh fase telah selesai. Gunakan [checklist pengujian final](FINAL-TESTING.md) sebelum setiap deployment produksi. Lihat juga [arsitektur](docs/ARCHITECTURE.md), [setup](SETUP.md), [panduan PWA](PWA.md), dan [panduan pengembangan](DEVELOPMENT.md).
 
 ## Pemeriksaan lokal
 

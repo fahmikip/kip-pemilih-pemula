@@ -3,6 +3,10 @@
   var dialog=document.getElementById('auth-dialog'), toast=document.getElementById('toast');
   function deviceId(){var key='pm_device_id',id=localStorage.getItem(key);if(!id){id=(crypto.randomUUID?crypto.randomUUID():Date.now()+'-'+Math.random()).replace(/-/g,'');localStorage.setItem(key,id)}return id}
   function notify(message){window.PM.notify(message)}
+  window.addEventListener('offline',function(){notify('Koneksi internet terputus. Data belum dikirim.')});
+  window.addEventListener('online',function(){notify('Koneksi internet kembali tersedia.')});
+  window.addEventListener('error',function(event){console.error('Client error',event.error||event.message);notify('Terjadi kesalahan pada tampilan. Silakan muat ulang halaman.')});
+  window.addEventListener('unhandledrejection',function(event){console.error('Client promise rejection',event.reason);notify('Permintaan tidak dapat diselesaikan. Silakan coba kembali.')});
   function panel(name){document.querySelectorAll('[data-panel]').forEach(function(el){el.hidden=el.dataset.panel!==name})}
   function busy(form,state){form.querySelectorAll('button,input,select').forEach(function(el){el.disabled=state})}
   document.querySelectorAll('[data-open]').forEach(function(button){button.addEventListener('click',function(){panel(button.dataset.open);dialog.showModal()})});

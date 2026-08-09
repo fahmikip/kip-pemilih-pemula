@@ -1,0 +1,13 @@
+const fs=require('node:fs');
+const assert=require('node:assert/strict');
+const read=file=>fs.readFileSync(file,'utf8');
+const index=read('src/index.html'),styles=read('src/styles.html'),auth=read('src/auth-client.html');
+assert.match(index,/<html lang="id">/);assert.match(index,/class="skip-link" href="#main-content"/);assert.match(index,/id="main-content"[^>]*tabindex="-1"/);assert.match(index,/id="toast" role="status" aria-live="polite"/);
+assert.match(styles,/@media\(prefers-reduced-motion:reduce\)/);assert.match(styles,/@media\(forced-colors:active\)/);
+assert.match(auth,/addEventListener\('offline'/);assert.match(auth,/addEventListener\('unhandledrejection'/);
+const utility=read('src/Utility.gs'),quiz=read('src/QuizService.gs'),point=read('src/PointService.gs'),winner=read('src/WinnerService.gs');
+assert.match(utility,/lock\.waitLock\(30000\)[\s\S]*finally \{ lock\.releaseLock\(\); \}/);
+for(const [name,source] of [['quiz',quiz],['point',point],['winner',winner]])assert.match(source,/withDocumentLock_\(/,name+' mutation wajib memakai lock');
+const database=read('src/DatabaseService.gs');assert.match(database,/setValues\(rows\)/);assert.doesNotMatch(database,/\.setValue\(/);
+for(const file of fs.readdirSync('src').filter(file=>/Service\.gs$/.test(file)))assert.doesNotMatch(read('src/'+file),/return apiError_\(error\.stack/,'stack trace leak: '+file);
+console.log('Accessibility, resilience, concurrency, performance, and security quality checks passed');

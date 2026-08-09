@@ -5,8 +5,9 @@
   <?!= include_('styles'); ?>
 </head>
 <body>
-  <header class="topbar public-view"><a class="brand" href="#">PEMILIH MUDA</a><nav><button class="link" data-open="login">Masuk</button><button data-open="register">Daftar</button></nav></header>
-  <main class="shell public-view">
+  <a class="skip-link" href="#main-content">Lewati ke konten utama</a>
+  <header class="topbar public-view"><a class="brand" href="#">PEMILIH MUDA</a><nav aria-label="Autentikasi"><button class="link" data-open="login">Masuk</button><button data-open="register">Daftar</button></nav></header>
+  <main id="main-content" class="shell public-view" tabindex="-1">
     <section class="hero">
       <div><span class="eyebrow">Platform edukasi pemilih pemula</span><h1>Kenali Hak Pilihmu.<br>Uji Pengetahuanmu.<br><em>Jadilah Pemilih Cerdas.</em></h1><p>Belajar kepemiluan secara netral, ikuti challenge bulanan, dan kumpulkan point dari jawaban yang tervalidasi.</p><div class="actions"><button data-open="register">Daftar sekarang</button><button class="secondary" data-open="login">Masuk</button></div></div>
       <aside class="score-card"><span>Season Challenge</span><strong>+10</strong><b>POINT PER JAWABAN</b><div class="meter"><i></i></div><small>Belajar • Quiz • Achievement</small></aside>

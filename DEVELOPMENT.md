@@ -130,6 +130,14 @@
 - Print/PDF memakai projection preview yang di-escape dan tidak membawa token sesi.
 - Setiap ekspor dicatat di `ActivityLogs`.
 
+## Quality Gate Phase 14
+
+- `npm.cmd test` wajib lulus sebelum deployment dan mencakup seluruh domain Fase 1–14.
+- Mutasi quiz, point, dan pemenang wajib tetap berada di dalam document lock dan mempertahankan replay/idempotency guard.
+- Data layer memakai batch `getValues`/`setValues`; penulisan sel berulang di loop dilarang.
+- UI menyediakan focus visible, skip navigation, live status, reduced motion, forced colors, serta pesan offline tanpa mengklaim jawaban terkirim.
+- Smoke test lintas role, ukuran layar, zoom, keyboard, koneksi offline, dan deployment tercatat di `FINAL-TESTING.md`.
+
 ## Batasan platform
 
 Google Sheets tidak menyediakan unique constraint atau transaction database. Service layer harus memakai locks, duplicate checks, dan idempotency keys. Apps Script memiliki quota/waktu eksekusi; agregasi leaderboard besar perlu cache dan trigger terjadwal. Untuk PWA penuh, gunakan static host terpisah sebagaimana dijelaskan di dokumen arsitektur.
