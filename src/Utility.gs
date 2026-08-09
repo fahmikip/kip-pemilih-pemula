@@ -45,6 +45,8 @@ function sanitizeText_(value, maxLength) {
   return String(value == null ? '' : value).trim().replace(/[\u0000-\u001F\u007F]/g, '').slice(0, maxLength || 255);
 }
 
+function sanitizeMultiline_(value,maxLength){return String(value==null?'':value).replace(/\r\n?/g,'\n').replace(/[\u0000-\u0008\u000B\u000C\u000E-\u001F\u007F]/g,'').trim().slice(0,maxLength||20000);}
+
 function normalizePhone_(value) {
   let phone = String(value || '').replace(/[^0-9+]/g, '');
   if (phone.indexOf('+62') === 0) phone = '0' + phone.slice(3);

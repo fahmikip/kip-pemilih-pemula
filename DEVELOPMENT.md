@@ -96,6 +96,14 @@
 - Suspend/block mencabut seluruh sesi pengguna. Reset akun administrator tetap hanya dapat dilakukan superadmin.
 - Sidebar permanen pada desktop, drawer pada tablet/mobile, dan tabel sensitif menggunakan horizontal scroll pada layar sempit.
 
+## Kontrak Education Content Phase 10
+
+- Materi dan pengumuman memiliki lifecycle `DRAFT`, `PUBLISHED`, `ARCHIVED`; hanya `PUBLISHED` yang dapat dibaca publik/peserta.
+- Konten disimpan sebagai plain multiline text dan selalu dirender dengan `textContent`/escaping, sehingga HTML admin tidak dieksekusi di browser peserta.
+- Thumbnail dan video eksternal wajib HTTPS. Link video memakai `noopener noreferrer`.
+- Pengumuman peserta hanya menerima audience `ALL`/`STUDENT` yang belum kedaluwarsa; audience `ADMIN` tidak bocor ke dashboard peserta.
+- Materi publik dicache singkat dan cache diinvalidasi setiap create/update/status change.
+
 ## Batasan platform
 
 Google Sheets tidak menyediakan unique constraint atau transaction database. Service layer harus memakai locks, duplicate checks, dan idempotency keys. Apps Script memiliki quota/waktu eksekusi; agregasi leaderboard besar perlu cache dan trigger terjadwal. Untuk PWA penuh, gunakan static host terpisah sebagaimana dijelaskan di dokumen arsitektur.

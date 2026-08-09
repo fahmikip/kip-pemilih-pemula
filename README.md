@@ -1,6 +1,6 @@
 # PEMILIH MUDA
 
-Platform edukasi dan quiz pemilih pemula berbasis Google Apps Script dan Google Sheets. Repository ini saat ini menyelesaikan **Phase 9 — Admin Dashboard**.
+Platform edukasi dan quiz pemilih pemula berbasis Google Apps Script dan Google Sheets. Repository ini saat ini menyelesaikan **Phase 10 — Education Content**.
 
 ## Yang sudah tersedia
 
@@ -31,8 +31,10 @@ Platform edukasi dan quiz pemilih pemula berbasis Google Apps Script dan Google 
 - Login role-aware yang mengarahkan admin/superadmin ke console terpisah dan peserta ke aplikasi mobile.
 - Admin dashboard responsive untuk statistik, peserta, sekolah, season, bank soal, finalisasi pemenang, dan reward.
 - Validasi/suspend peserta, create school/season/question, aktivasi season, duplikasi/status soal, serta status reward dari UI.
+- CRUD dan lifecycle draft/publish/archive untuk materi edukasi serta pengumuman dengan audience dan expiry.
+- Viewer materi peserta, materi publik landing page, tautan video aman, dan FAQ privasi/netralitas program.
 
-Pengelolaan konten lanjutan, anti-fraud, reporting, dan PWA penuh belum diklaim selesai; semuanya dijadwalkan pada fase berikutnya. Lihat [arsitektur](docs/ARCHITECTURE.md), [setup](SETUP.md), dan [panduan pengembangan](DEVELOPMENT.md).
+Anti-fraud, reporting, dan PWA penuh belum diklaim selesai; semuanya dijadwalkan pada fase berikutnya. Lihat [arsitektur](docs/ARCHITECTURE.md), [setup](SETUP.md), dan [panduan pengembangan](DEVELOPMENT.md).
 
 ## Pemeriksaan lokal
 

@@ -25,7 +25,7 @@ function getStudentDashboard(token) {
     const progress = maxAttempt ? Math.min(100, Math.round(completed / maxAttempt * 100)) : 0;
     const materials = readTable_('Materials').filter(item => item.Status === 'PUBLISHED').sort((a,b) => String(b.PublishedAt).localeCompare(String(a.PublishedAt))).slice(0,5).map(item => ({id:item.MaterialID,title:item.Title,category:item.Category,thumbnail:item.Thumbnail || '',content:item.Content,videoUrl:item.VideoURL || ''}));
     const now = Date.now();
-    const announcements = readTable_('Announcements').filter(item => item.Status === 'PUBLISHED' && (!item.ExpiresAt || new Date(item.ExpiresAt).getTime() >= now)).sort((a,b) => String(b.PublishedAt).localeCompare(String(a.PublishedAt))).slice(0,5).map(item => ({id:item.AnnouncementID,title:item.Title,content:item.Content,publishedAt:item.PublishedAt}));
+    const announcements = readTable_('Announcements').filter(item => item.Status === 'PUBLISHED' && ['ALL','STUDENT'].indexOf(item.Audience)>=0 && (!item.ExpiresAt || new Date(item.ExpiresAt+'T23:59:59').getTime() >= now)).sort((a,b) => String(b.PublishedAt).localeCompare(String(a.PublishedAt))).slice(0,5).map(item => ({id:item.AnnouncementID,title:item.Title,content:item.Content,publishedAt:item.PublishedAt}));
     return apiSuccess_({
       user:publicUser_(user), point:ownRank ? ownRank.point : 0, rank:leaderboardVisible&&ownRank ? ownRank.rank : null,
       season:season ? {id:season.SeasonID,name:season.NamaSeason,theme:season.Tema,description:season.Deskripsi,start:season.TanggalMulai,end:season.TanggalSelesai,maxAttempt:maxAttempt} : null,
