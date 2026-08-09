@@ -11,5 +11,5 @@ assert.match(source,/getReportPreview[\s\S]*requireSession_\(adminToken,\['ADMIN
 assert.match(source,/exportReportCsv[\s\S]*requireSession_\(adminToken,\['ADMIN','SUPERADMIN'\]\)/);
 assert.match(source,/data\.rows\.length>50000/);
 const client=fs.readFileSync('src/admin-client.html','utf8');
-assert.match(client,/getReportPreview/);assert.match(client,/exportReportCsv/);assert.match(client,/new Blob/);assert.match(client,/window\.print/);
+assert.match(client,/getReportPreview/);assert.match(client,/exportReportCsv/);assert.match(client,/new Blob/);assert.match(client,/window\.print/);assert.match(client,/bindIfPresent\('preview-report'/);
 console.log('Reporting security and export checks passed');
