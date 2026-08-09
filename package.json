@@ -1,6 +1,6 @@
 {
   "name": "pemilih-muda-gas",
-  "version": "0.1.0",
+  "version": "0.12.0",
   "private": true,
-  "scripts": {"test": "node tests/syntax.test.js && node tests/schema.test.js && node tests/validation.test.js && node tests/templates.test.js && node tests/client-syntax.test.js && node tests/quiz.test.js && node tests/point.test.js && node tests/leaderboard.test.js && node tests/winner.test.js && node tests/admin.test.js && node tests/content.test.js && node tests/fraud.test.js", "check": "node tests/syntax.test.js && node tests/templates.test.js && node tests/client-syntax.test.js"}
+  "scripts": {"test": "node tests/syntax.test.js && node tests/schema.test.js && node tests/validation.test.js && node tests/templates.test.js && node tests/client-syntax.test.js && node tests/quiz.test.js && node tests/point.test.js && node tests/leaderboard.test.js && node tests/winner.test.js && node tests/admin.test.js && node tests/content.test.js && node tests/fraud.test.js && node tests/pwa.test.js", "check": "node tests/syntax.test.js && node tests/templates.test.js && node tests/client-syntax.test.js"}
 }

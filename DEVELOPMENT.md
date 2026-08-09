@@ -113,6 +113,14 @@
 - Admin dapat `CONFIRMED` atau `DISMISSED`; log dismissed dikeluarkan saat FraudScore dihitung ulang.
 - Cache-based throttling membatasi start quiz dan submit answer; Sheets/FraudLogs tetap menjadi audit trail untuk pelanggaran batas.
 
+## Kontrak PWA Phase 12
+
+- Folder `pwa/` harus di-host pada origin HTTPS statis agar manifest dan service worker mempunyai scope yang sah.
+- PWA menyimpan URL deployment Apps Script hanya di localStorage perangkat dan memvalidasi host `script.google.com` serta suffix `/exec`.
+- Service worker tidak meng-cache cross-origin atau non-GET request. Dengan demikian login, session, quiz, jawaban, dan point selalu membutuhkan server.
+- Offline fallback hanya berisi shell dan materi ringkas nonsensitif; tidak pernah menampilkan point baru atau menganggap jawaban terkirim.
+- Cache release memakai versi eksplisit pada konstanta `CACHE`; perubahan aset wajib menaikkan versi tersebut.
+
 ## Batasan platform
 
 Google Sheets tidak menyediakan unique constraint atau transaction database. Service layer harus memakai locks, duplicate checks, dan idempotency keys. Apps Script memiliki quota/waktu eksekusi; agregasi leaderboard besar perlu cache dan trigger terjadwal. Untuk PWA penuh, gunakan static host terpisah sebagaimana dijelaskan di dokumen arsitektur.

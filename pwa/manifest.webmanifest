@@ -1,0 +1,16 @@
+{
+  "name": "PEMILIH MUDA — Edukasi Pemilih Pemula",
+  "short_name": "PEMILIH MUDA",
+  "description": "Platform edukasi dan quiz pemilih pemula yang netral dan nonpartisan.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#f4f7fb",
+  "theme_color": "#123b66",
+  "lang": "id-ID",
+  "categories": ["education", "government"],
+  "icons": [
+    {"src": "icons/icon-1536.png", "sizes": "1254x1254", "type": "image/png", "purpose": "any maskable"}
+  ]
+}

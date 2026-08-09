@@ -122,7 +122,7 @@ Alternatif satu-deployment HTML Service tetap dapat memberi pengalaman mobile da
 9. Admin dashboard — participant, school, season, question, winner, dan reward operations (selesai; content/fraud diteruskan pada fase domain terkait).
 10. Education content — material, announcement, audience, dan publication lifecycle (selesai; read status individual dapat ditambahkan sebagai enhancement).
 11. Anti-fraud/security hardening — rules, throttling, audit review (selesai untuk baseline MVP).
-12. PWA — static hosting, manifest, service worker, offline policy, install UX.
+12. PWA — static hosting, manifest, service worker, offline policy, install UX (selesai sebagai companion sesuai batasan origin Apps Script).
 13. Reporting — CSV dan print-friendly report.
 14. Testing/optimization — unit, integration, concurrency, accessibility, responsive, performance, security review.
 

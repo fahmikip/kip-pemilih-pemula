@@ -1,6 +1,6 @@
 # PEMILIH MUDA
 
-Platform edukasi dan quiz pemilih pemula berbasis Google Apps Script dan Google Sheets. Repository ini saat ini menyelesaikan **Phase 11 — Anti-Fraud & Security Hardening**.
+Platform edukasi dan quiz pemilih pemula berbasis Google Apps Script dan Google Sheets. Repository ini saat ini menyelesaikan **Phase 12 — Progressive Web App**.
 
 ## Yang sudah tersedia
 
@@ -35,8 +35,10 @@ Platform edukasi dan quiz pemilih pemula berbasis Google Apps Script dan Google 
 - Viewer materi peserta, materi publik landing page, tautan video aman, dan FAQ privasi/netralitas program.
 - Fraud score dan review lifecycle untuk replay, nonce/option manipulation, excessive request, durasi tidak realistis, identitas duplikat, dan shared device.
 - Scanner fraud admin, confirm/dismiss, rekalkulasi score, serta rate limiting pada start dan submit quiz.
+- Installable static PWA companion dengan manifest, ikon maskable, install prompt, standalone mode, offline shell, dan offline fallback.
+- Service worker mem-cache hanya aset statis; Apps Script, session, jawaban quiz, dan point selalu network-only.
 
-Reporting dan PWA penuh belum diklaim selesai; semuanya dijadwalkan pada fase berikutnya. Lihat [arsitektur](docs/ARCHITECTURE.md), [setup](SETUP.md), dan [panduan pengembangan](DEVELOPMENT.md).
+Reporting serta final testing/optimization belum diklaim selesai; semuanya dijadwalkan pada fase berikutnya. Lihat [arsitektur](docs/ARCHITECTURE.md), [setup](SETUP.md), [panduan PWA](PWA.md), dan [panduan pengembangan](DEVELOPMENT.md).
 
 ## Pemeriksaan lokal
 

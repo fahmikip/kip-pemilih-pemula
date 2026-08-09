@@ -1,6 +1,6 @@
 const APP = Object.freeze({
   NAME: 'PEMILIH MUDA',
-  VERSION: '0.1.0',
+  VERSION: '0.12.0',
   SCHEMA_VERSION: '1',
   TIME_ZONE: 'Asia/Jakarta',
   DATABASE_PROPERTY: 'DATABASE_SPREADSHEET_ID',
