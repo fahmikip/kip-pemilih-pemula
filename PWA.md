@@ -4,6 +4,8 @@
 
 Google Apps Script HTML Service merender aplikasi melalui origin/iframe Google dan tidak memberi kontrol yang diperlukan atas scope serta response header service worker. Karena itu folder `pwa/` adalah installable companion pada origin HTTPS statis, sementara Apps Script tetap menjadi backend/aplikasi transaksi.
 
+Repository mempublikasikan folder `pwa/` secara otomatis melalui GitHub Actions ke `https://fahmikip.github.io/kip-pemilih-pemula/`. Status deployment dapat dilihat pada tab **Actions** atau **Settings → Pages**.
+
 PWA companion tidak meng-cache request lintas origin, POST, session, atau quiz. Tombol **Buka Aplikasi** membuka deployment Apps Script yang sudah dikonfigurasi. Offline hanya mencakup shell dan materi ringkas nonsensitif.
 
 ## Deployment

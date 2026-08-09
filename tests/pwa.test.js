@@ -8,4 +8,5 @@ const html=fs.readFileSync('pwa/index.html','utf8');assert.match(html,/rel="mani
 assert.doesNotMatch(html,/id="install-app"[^>]*hidden/,'tombol install harus terlihat saat dibuka dari browser');
 const app=fs.readFileSync('pwa/app.js','utf8');assert.match(app,/beforeinstallprompt/);assert.match(app,/display-mode: standalone/);assert.match(app,/Tambahkan ke Layar Utama/);assert.match(app,/hostname==='script\.google\.com'/,'launcher hanya menerima host Apps Script resmi');
 const gas=fs.readFileSync('src/index.html','utf8'),auth=fs.readFileSync('src/auth-client.html','utf8');assert.match(gas,/data-install-app/);assert.match(auth,/beforeinstallprompt/);assert.match(auth,/data-install-app/);
+const workflow=fs.readFileSync('.github/workflows/pages.yml','utf8');assert.match(workflow,/actions\/upload-pages-artifact@v3/);assert.match(workflow,/path: pwa/);assert.match(workflow,/actions\/deploy-pages@v4/);assert.match(workflow,/pages: write/);
 console.log('PWA install/offline policy checks passed');
