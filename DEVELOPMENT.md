@@ -39,6 +39,13 @@
 - Token disimpan di `sessionStorage` oleh shell awal. Phase 3 wajib menambahkan bootstrap session dan route dashboard tanpa memindahkan token ke URL/cookie yang tidak terlindungi.
 - Registrasi menghasilkan status `PENDING`; administrator harus memvalidasi sebelum peserta dapat login.
 
+## Kontrak aplikasi peserta Phase 3
+
+- `getStudentDashboard(token)` hanya menerima sesi `STUDENT` aktif dan mengembalikan proyeksi dashboard, materi terbit, pengumuman aktif, Top 3, serta Top 50 tanpa PII.
+- `getStudentProfile(token)` mengembalikan data pribadi hanya kepada pemilik sesi.
+- Ranking dihitung dari transaksi `PointTransactions` berstatus `VALID`; `TotalPointCache` tidak menjadi sumber kebenaran.
+- Tombol quiz sengaja belum menjalankan attempt sampai Quiz Engine Phase 5 selesai.
+
 ## Batasan platform
 
 Google Sheets tidak menyediakan unique constraint atau transaction database. Service layer harus memakai locks, duplicate checks, dan idempotency keys. Apps Script memiliki quota/waktu eksekusi; agregasi leaderboard besar perlu cache dan trigger terjadwal. Untuk PWA penuh, gunakan static host terpisah sebagaimana dijelaskan di dokumen arsitektur.

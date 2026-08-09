@@ -66,3 +66,8 @@ function constantTimeEqual_(left, right) {
   for (let index = 0; index < length; index += 1) difference |= (a.charCodeAt(index % Math.max(a.length, 1)) || 0) ^ (b.charCodeAt(index % Math.max(b.length, 1)) || 0);
   return difference === 0;
 }
+
+function dateOnly_(value) {
+  if (value instanceof Date) return Utilities.formatDate(value, APP.TIME_ZONE, 'yyyy-MM-dd');
+  return String(value || '').slice(0, 10);
+}

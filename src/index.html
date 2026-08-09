@@ -5,8 +5,8 @@
   <?!= include_('styles'); ?>
 </head>
 <body>
-  <header class="topbar"><a class="brand" href="#">PEMILIH MUDA</a><nav><button class="link" data-open="login">Masuk</button><button data-open="register">Daftar</button></nav></header>
-  <main class="shell">
+  <header class="topbar public-view"><a class="brand" href="#">PEMILIH MUDA</a><nav><button class="link" data-open="login">Masuk</button><button data-open="register">Daftar</button></nav></header>
+  <main class="shell public-view">
     <section class="hero">
       <div><span class="eyebrow">Platform edukasi pemilih pemula</span><h1>Kenali Hak Pilihmu.<br>Uji Pengetahuanmu.<br><em>Jadilah Pemilih Cerdas.</em></h1><p>Belajar kepemiluan secara netral, ikuti challenge bulanan, dan kumpulkan point dari jawaban yang tervalidasi.</p><div class="actions"><button data-open="register">Daftar sekarang</button><button class="secondary" data-open="login">Masuk</button></div></div>
       <aside class="score-card"><span>Season Challenge</span><strong>+10</strong><b>POINT PER JAWABAN</b><div class="meter"><i></i></div><small>Belajar • Quiz • Achievement</small></aside>
@@ -15,10 +15,29 @@
     <section class="status" aria-live="polite"><span class="dot"></span><span id="service-status">Memeriksa layanan…</span></section>
   </main>
 
+  <main id="student-app" hidden>
+    <header class="app-header"><div><small id="student-school">Sekolah</small><h1>Halo, <span id="student-name">Peserta</span> 👋</h1></div><button class="avatar" data-screen-target="profile" aria-label="Profil"><span id="student-initial">P</span></button></header>
+    <div id="app-loading" class="app-content"><div class="skeleton hero-skeleton"></div><div class="skeleton"></div><div class="skeleton"></div></div>
+    <div id="app-content" class="app-content" hidden>
+      <section class="app-screen active" data-screen="home">
+        <article class="point-card"><div><small>POINT BULAN INI</small><strong id="student-point">0</strong></div><div><small>RANKING</small><strong id="student-rank">—</strong></div></article>
+        <article class="season-card"><span class="tag">SEASON AKTIF</span><h2 id="season-name">Belum ada season aktif</h2><p id="season-theme">Challenge berikutnya akan segera hadir.</p><div class="progress-label"><span>Challenge bulan ini</span><b id="progress-label">0%</b></div><div class="app-progress"><i id="progress-bar"></i></div><button id="start-quiz" type="button">Mulai Quiz</button></article>
+        <section><div class="section-title"><h2>Top 3 Leaderboard</h2><button class="text-button" data-screen-target="rank">Lihat semua</button></div><div id="top-three" class="rank-list empty-card">Belum ada perolehan point.</div></section>
+        <section><div class="section-title"><h2>Materi terbaru</h2><button class="text-button" data-screen-target="learn">Lihat semua</button></div><div id="material-preview" class="horizontal-cards"></div></section>
+        <section><div class="section-title"><h2>Pengumuman</h2></div><div id="announcement-list" class="announcement-list"></div></section>
+      </section>
+      <section class="app-screen" data-screen="learn"><div class="page-heading"><span class="eyebrow">Belajar</span><h2>Bekal Pemilih Cerdas</h2><p>Materi netral dan nonpartisan yang telah dipublikasikan.</p></div><div id="material-list" class="material-grid"></div></section>
+      <section class="app-screen" data-screen="rank"><div class="page-heading"><span class="eyebrow">Leaderboard</span><h2>Peringkat Season</h2><p>Hanya nama publik, sekolah, dan point valid yang ditampilkan.</p></div><div id="rank-screen-list" class="rank-list"></div></section>
+      <section class="app-screen" data-screen="profile"><div class="page-heading"><span class="eyebrow">Profil</span><h2>Data Peserta</h2><p>Data ini bersifat pribadi dan hanya terlihat olehmu serta administrator berwenang.</p></div><div id="profile-data" class="profile-card"><div class="skeleton"></div></div><button id="logout-button" class="danger-button">Keluar dari akun</button></section>
+    </div>
+    <nav class="bottom-nav" aria-label="Navigasi utama"><button class="active" data-screen-target="home"><span>⌂</span>Home</button><button data-screen-target="learn"><span>▤</span>Belajar</button><button data-screen-target="rank"><span>♜</span>Rank</button><button data-screen-target="profile"><span>○</span>Profil</button></nav>
+  </main>
+
   <dialog id="auth-dialog"><button class="close" aria-label="Tutup">×</button>
     <section class="auth-panel" data-panel="login"><span class="eyebrow">Selamat datang kembali</span><h2>Masuk ke akunmu</h2><form id="login-form"><label>Email atau NIS/NISN<input name="identifier" autocomplete="username" required></label><label>Password<input name="password" type="password" autocomplete="current-password" required></label><button type="submit">Masuk</button></form><p class="switch">Belum punya akun? <button class="text-button" data-switch="register">Daftar</button></p></section>
     <section class="auth-panel" data-panel="register" hidden><span class="eyebrow">Mulai perjalananmu</span><h2>Daftar peserta</h2><form id="register-form"><div class="form-grid"><label class="wide">Nama lengkap<input name="name" autocomplete="name" minlength="3" maxlength="100" required></label><label>NIS/NISN<input name="nis" maxlength="30" required></label><label>Asal sekolah<select name="schoolId" required><option value="">Memuat sekolah…</option></select></label><label>Kelas<input name="className" maxlength="30" required></label><label>Tanggal lahir<input name="birthDate" type="date" required></label><label>Jenis kelamin (opsional)<select name="gender"><option value="">Tidak dipilih</option><option>LAKI-LAKI</option><option>PEREMPUAN</option><option>LAINNYA</option></select></label><label>Nomor WhatsApp<input name="whatsapp" inputmode="tel" autocomplete="tel" required></label><label class="wide">Email<input name="email" type="email" autocomplete="email" required></label><label>Password<input name="password" type="password" autocomplete="new-password" minlength="10" required></label><label>Konfirmasi password<input name="passwordConfirm" type="password" autocomplete="new-password" minlength="10" required></label></div><label class="agreement"><input name="agreement" type="checkbox" required><span>Saya menyatakan data yang saya masukkan benar dan bersedia mengikuti ketentuan program.</span></label><button type="submit">Buat akun</button></form><p class="switch">Sudah terdaftar? <button class="text-button" data-switch="login">Masuk</button></p></section>
   </dialog>
   <div id="toast" role="status" aria-live="polite"></div>
+  <?!= include_('student-client'); ?>
   <?!= include_('auth-client'); ?>
 </body></html>
