@@ -1,26 +1,24 @@
 <!doctype html>
 <html lang="id">
 <head>
-  <base target="_top">
-  <meta charset="utf-8">
-  <meta name="theme-color" content="#123B66">
-  <?!= include_('src/styles'); ?>
+  <base target="_top"><meta charset="utf-8"><meta name="theme-color" content="#123B66">
+  <?!= include_('styles'); ?>
 </head>
 <body>
+  <header class="topbar"><a class="brand" href="#">PEMILIH MUDA</a><nav><button class="link" data-open="login">Masuk</button><button data-open="register">Daftar</button></nav></header>
   <main class="shell">
-    <div class="brand">PEMILIH MUDA</div>
     <section class="hero">
-      <span class="eyebrow">Platform edukasi pemilih pemula</span>
-      <h1>Kenali Hak Pilihmu.<br>Uji Pengetahuanmu.<br><em>Jadilah Pemilih Cerdas.</em></h1>
-      <p>Aplikasi sedang berada pada Phase 1: fondasi data dan arsitektur telah siap.</p>
-      <div class="actions"><button disabled>Daftar sekarang</button><button class="secondary" disabled>Masuk</button></div>
+      <div><span class="eyebrow">Platform edukasi pemilih pemula</span><h1>Kenali Hak Pilihmu.<br>Uji Pengetahuanmu.<br><em>Jadilah Pemilih Cerdas.</em></h1><p>Belajar kepemiluan secara netral, ikuti challenge bulanan, dan kumpulkan point dari jawaban yang tervalidasi.</p><div class="actions"><button data-open="register">Daftar sekarang</button><button class="secondary" data-open="login">Masuk</button></div></div>
+      <aside class="score-card"><span>Season Challenge</span><strong>+10</strong><b>POINT PER JAWABAN</b><div class="meter"><i></i></div><small>Belajar • Quiz • Achievement</small></aside>
     </section>
-    <section class="status" aria-live="polite"><span class="dot"></span><span id="status">Memeriksa layanan…</span></section>
+    <section class="steps"><article><b>01</b><h2>Daftar</h2><p>Gunakan identitas sekolah yang benar.</p></article><article><b>02</b><h2>Ikuti Quiz</h2><p>Jawaban diperiksa aman di server.</p></article><article><b>03</b><h2>Naik Ranking</h2><p>Kumpulkan point edukasi yang valid.</p></article></section>
+    <section class="status" aria-live="polite"><span class="dot"></span><span id="service-status">Memeriksa layanan…</span></section>
   </main>
-  <script>
-    google.script.run.withSuccessHandler(function(response) {
-      document.getElementById('status').textContent = response.success ? 'Fondasi v' + response.data.version + ' siap' : response.message;
-    }).withFailureHandler(function() { document.getElementById('status').textContent = 'Layanan belum dapat dihubungi'; }).getPublicBootstrap();
-  </script>
-</body>
-</html>
+
+  <dialog id="auth-dialog"><button class="close" aria-label="Tutup">×</button>
+    <section class="auth-panel" data-panel="login"><span class="eyebrow">Selamat datang kembali</span><h2>Masuk ke akunmu</h2><form id="login-form"><label>Email atau NIS/NISN<input name="identifier" autocomplete="username" required></label><label>Password<input name="password" type="password" autocomplete="current-password" required></label><button type="submit">Masuk</button></form><p class="switch">Belum punya akun? <button class="text-button" data-switch="register">Daftar</button></p></section>
+    <section class="auth-panel" data-panel="register" hidden><span class="eyebrow">Mulai perjalananmu</span><h2>Daftar peserta</h2><form id="register-form"><div class="form-grid"><label class="wide">Nama lengkap<input name="name" autocomplete="name" minlength="3" maxlength="100" required></label><label>NIS/NISN<input name="nis" maxlength="30" required></label><label>Asal sekolah<select name="schoolId" required><option value="">Memuat sekolah…</option></select></label><label>Kelas<input name="className" maxlength="30" required></label><label>Tanggal lahir<input name="birthDate" type="date" required></label><label>Jenis kelamin (opsional)<select name="gender"><option value="">Tidak dipilih</option><option>LAKI-LAKI</option><option>PEREMPUAN</option><option>LAINNYA</option></select></label><label>Nomor WhatsApp<input name="whatsapp" inputmode="tel" autocomplete="tel" required></label><label class="wide">Email<input name="email" type="email" autocomplete="email" required></label><label>Password<input name="password" type="password" autocomplete="new-password" minlength="10" required></label><label>Konfirmasi password<input name="passwordConfirm" type="password" autocomplete="new-password" minlength="10" required></label></div><label class="agreement"><input name="agreement" type="checkbox" required><span>Saya menyatakan data yang saya masukkan benar dan bersedia mengikuti ketentuan program.</span></label><button type="submit">Buat akun</button></form><p class="switch">Sudah terdaftar? <button class="text-button" data-switch="login">Masuk</button></p></section>
+  </dialog>
+  <div id="toast" role="status" aria-live="polite"></div>
+  <?!= include_('auth-client'); ?>
+</body></html>

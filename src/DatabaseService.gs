@@ -68,6 +68,32 @@ function findOne_(name, field, value) {
   return readTable_(name).find(record => String(record[field]) === String(value)) || null;
 }
 
+function updateRecord_(name, idField, idValue, changes) {
+  const headers = DATABASE_SCHEMA[name];
+  const sheet = getDatabase_().getSheetByName(name);
+  const values = sheet.getDataRange().getValues();
+  const idIndex = headers.indexOf(idField);
+  if (idIndex < 0) throw new Error('Kolom ID tidak ditemukan: ' + idField);
+  const rowIndex = values.slice(1).findIndex(row => String(row[idIndex]) === String(idValue));
+  if (rowIndex < 0) return false;
+  const row = values[rowIndex + 1].slice(0, headers.length);
+  Object.keys(changes).forEach(key => {
+    const column = headers.indexOf(key);
+    if (column >= 0) row[column] = changes[key];
+  });
+  sheet.getRange(rowIndex + 2, 1, 1, headers.length).setValues([row]);
+  return true;
+}
+
+function getSetting_(key, fallback) {
+  const cached = CacheService.getScriptCache().get('setting:' + key);
+  if (cached !== null) return cached;
+  const record = findOne_('Settings', 'Key', key);
+  const value = record ? String(record.Value) : fallback;
+  CacheService.getScriptCache().put('setting:' + key, String(value), APP.CACHE_SECONDS);
+  return value;
+}
+
 function upsertSetting_(key, value, type, description, actor) {
   const sheet = getDatabase_().getSheetByName('Settings');
   const rows = sheet.getDataRange().getValues();

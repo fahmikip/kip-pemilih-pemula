@@ -32,6 +32,13 @@
 - Manual: authorization matrix, expiry/replay, offline quiz behavior, responsive, install prompt.
 - Sebelum produksi: load/concurrency test terkontrol dan pemeriksaan quota Apps Script.
 
+## Kontrak autentikasi Phase 2
+
+- Endpoint publik: `registerStudent(payload)`, `login(payload)`, `logout(token)`, `getCurrentUser(token)`, dan `listPublicSchools()`.
+- Endpoint admin awal: `validateStudent(adminToken, userId)` dan `adminResetPassword(adminToken, userId, newPassword)`.
+- Token disimpan di `sessionStorage` oleh shell awal. Phase 3 wajib menambahkan bootstrap session dan route dashboard tanpa memindahkan token ke URL/cookie yang tidak terlindungi.
+- Registrasi menghasilkan status `PENDING`; administrator harus memvalidasi sebelum peserta dapat login.
+
 ## Batasan platform
 
 Google Sheets tidak menyediakan unique constraint atau transaction database. Service layer harus memakai locks, duplicate checks, dan idempotency keys. Apps Script memiliki quota/waktu eksekusi; agregasi leaderboard besar perlu cache dan trigger terjadwal. Untuk PWA penuh, gunakan static host terpisah sebagaimana dijelaskan di dokumen arsitektur.

@@ -2,5 +2,5 @@
   "name": "pemilih-muda-gas",
   "version": "0.1.0",
   "private": true,
-  "scripts": {"test": "node tests/syntax.test.js && node tests/schema.test.js", "check": "node tests/syntax.test.js"}
+  "scripts": {"test": "node tests/syntax.test.js && node tests/schema.test.js && node tests/validation.test.js && node tests/templates.test.js", "check": "node tests/syntax.test.js && node tests/templates.test.js"}
 }

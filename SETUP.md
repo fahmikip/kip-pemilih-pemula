@@ -19,6 +19,8 @@
 7. Opsional, jalankan `seedDemoData()` hanya untuk lingkungan demo/development.
 8. Deploy sebagai Web app, execute as pemilik. Untuk fase publik, evaluasi kebijakan akses organisasi sebelum memilih siapa yang dapat membuka aplikasi.
 
+Di editor Apps Script, nama file HTML harus tetap datar: `index`, `styles`, dan `auth-client`. Folder `src/` hanya organisasi lokal repository dan tidak boleh ditulis sebagai bagian nama pada `createTemplateFromFile()` atau `include_()`.
+
 Menjalankan `setupApplication()` kembali aman: sheet/setting tidak diduplikasi. Jika header sheet yang sudah berisi data berbeda, setup berhenti dan meminta migrasi manual.
 
 ## Script Properties yang dibuat otomatis
