@@ -114,7 +114,7 @@ Alternatif satu-deployment HTML Service tetap dapat memberi pengalaman mobile da
 1. Foundation/database — schema, setup, repository, konfigurasi, seed, dokumentasi (selesai).
 2. Authentication/user — registrasi, login, session, reset admin, role guard, rate limit (selesai).
 3. Student UI — landing, dashboard, profil, navigation dan states (selesai).
-4. Season/question — CRUD admin, import, activation rules.
+4. Season/question — CRUD admin, import, activation rules (selesai).
 5. Quiz engine — randomized server-side sessions dan answer validation.
 6. Point engine — ledger, bonus, achievement hooks, reconciliation.
 7. Leaderboard — peserta/sekolah, safe projection, ranking pribadi.

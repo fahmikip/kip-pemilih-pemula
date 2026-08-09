@@ -46,6 +46,15 @@
 - Ranking dihitung dari transaksi `PointTransactions` berstatus `VALID`; `TotalPointCache` tidak menjadi sumber kebenaran.
 - Tombol quiz sengaja belum menjalankan attempt sampai Quiz Engine Phase 5 selesai.
 
+## Kontrak season dan bank soal Phase 4
+
+- Seluruh endpoint pengelolaan memerlukan sesi `ADMIN` atau `SUPERADMIN`.
+- Season `ACTIVE` tidak dapat diedit langsung; nonaktifkan dahulu agar konfigurasi attempt tidak berubah di tengah quiz.
+- `activateSeason()` memakai script lock, memastikan hanya satu season aktif, dan menolak bank soal yang tidak mencukupi.
+- Season `SCHEDULED` dalam rentang tanggal server dapat dikenali otomatis bila tidak ada override aktif.
+- Penghapusan soal dilakukan secara aman melalui status `INACTIVE`; histori quiz tidak kehilangan referensi.
+- Import Spreadsheet membutuhkan header schema Bank Soal, dibatasi 1.000 baris, divalidasi per baris, dicek duplikat, lalu ditulis batch.
+
 ## Batasan platform
 
 Google Sheets tidak menyediakan unique constraint atau transaction database. Service layer harus memakai locks, duplicate checks, dan idempotency keys. Apps Script memiliki quota/waktu eksekusi; agregasi leaderboard besar perlu cache dan trigger terjadwal. Untuk PWA penuh, gunakan static host terpisah sebagaimana dijelaskan di dokumen arsitektur.

@@ -3,7 +3,7 @@ function resolveActiveSeason_() {
   const seasons = readTable_('Seasons');
   const manualId = getSetting_('ACTIVE_SEASON', '');
   const manual = manualId ? seasons.find(item => item.SeasonID === manualId && item.Status === 'ACTIVE') : null;
-  return manual || seasons.find(item => item.Status === 'ACTIVE' && dateOnly_(item.TanggalMulai) <= today && dateOnly_(item.TanggalSelesai) >= today) || null;
+  return manual || seasons.find(item => ['ACTIVE','SCHEDULED'].indexOf(item.Status)>=0 && dateOnly_(item.TanggalMulai) <= today && dateOnly_(item.TanggalSelesai) >= today) || null;
 }
 
 function maskPublicName_(name) {
